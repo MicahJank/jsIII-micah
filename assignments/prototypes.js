@@ -74,6 +74,7 @@ Humanoid.prototype.greet = function() {
   * Instances of CharacterStats should have all of the same properties as GameObject.
 */
 
+
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
 
@@ -127,19 +128,85 @@ Humanoid.prototype.greet = function() {
     language: 'Elvish',
   });
 
-  console.log(mage.createdAt); // Today's date
-  console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
-  console.log(swordsman.healthPoints); // 15
-  console.log(mage.name); // Bruce
-  console.log(swordsman.team); // The Round Table
-  console.log(mage.weapons); // Staff of Shamalama
-  console.log(archer.language); // Elvish
-  console.log(archer.greet()); // Lilith offers a greeting in Elvish.
-  console.log(mage.takeDamage()); // Bruce took damage.
-  console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
+  // console.log(mage.createdAt); // Today's date
+  // console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
+  // console.log(swordsman.healthPoints); // 15
+  // console.log(mage.name); // Bruce
+  // console.log(swordsman.team); // The Round Table
+  // console.log(mage.weapons); // Staff of Shamalama
+  // console.log(archer.language); // Elvish
+  // console.log(archer.greet()); // Lilith offers a greeting in Elvish.
+  // console.log(mage.takeDamage()); // Bruce took damage.
+  // console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  
+// Hero and Villan Constructors
+
+function Hero(heroAttrs) {
+  Humanoid.call(this, heroAttrs);
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+Hero.prototype.heroSlash = function(targetObj) {
+  console.log(`${this.name} used Hero Slash!`);
+  targetObj.healthPoints -= 5;
+  console.log(`${targetObj.name} lost 5 health points! Their current health is at ${targetObj.healthPoints}!`);
+};
+
+
+function Villain(villainAttrs) {
+  Humanoid.call(this, villainAttrs);
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+Villain.prototype.villainKick = function(targetObj) {
+  console.log(`${this.name} used Villain Kick!`);
+  targetObj.healthPoints -= 3;
+  console.log(`${targetObj.name} lost 3 health points! Their current health is at ${targetObj.healthPoints}!`);
+};
+
+
+const hero = new Hero({
+  createdAt: new Date(),
+    dimensions: {
+      length: 3,
+      width: 2,
+      height: 3,
+    },
+    healthPoints: 11,
+    name: 'Micah',
+    team: 'Heros Guild',
+    weapons: [
+      'Sword of The Hero',
+    ],
+    language: 'Common Tongue',
+});
+
+const villain = new Villain({
+  createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 5,
+    },
+    healthPoints: 10,
+    name: 'Jerry',
+    team: 'The Horde',
+    weapons: [
+      'Legs',
+      'Fists',
+    ],
+    language: 'Common Tongue',
+});
+
+villain.villainKick(hero);
+hero.heroSlash(villain);
+villain.villainKick(hero);
+hero.heroSlash(villain);
+
